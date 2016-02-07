@@ -2,9 +2,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="in.incognitech.noteroid.MainActivity">
+
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:id="@+id/action_uninstall"
+        android:orderInCategory="101"
+        android:title="@string/action_str_uninstall"
+        app:showAsAction="never"/>
+
 </menu>
