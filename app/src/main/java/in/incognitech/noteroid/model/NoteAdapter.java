@@ -1,12 +1,16 @@
 package in.incognitech.noteroid.model;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
+import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 import in.incognitech.noteroid.R;
@@ -55,15 +59,9 @@ public class NoteAdapter extends ArrayAdapter<Note> {
         }
 
         // Set the image
-//        try {
-//            InputStream inputStream = getContext().getAssets().open(note.getImageURL());
-//            Bitmap bm = BitmapOptimizer.decodeSampledBitmapFromResource( parent.getResources(), inputStream, 40, 40 );
-//            holder.imageView.setImageDrawable(new BitmapDrawable(parent.getResources(), bm));
-            // ToDo - set image from captured images . Maybe Database
+        Bitmap bm = BitmapFactory.decodeFile(note.getPhotoPath());
+        holder.imageView.setImageBitmap(bm);
 
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
         return row;
     }
 }

@@ -1,6 +1,8 @@
 package in.incognitech.noteroid;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -13,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 
@@ -23,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import in.incognitech.noteroid.db.NoteDbHelper;
 import in.incognitech.noteroid.model.Note;
 import in.incognitech.noteroid.model.NoteAdapter;
 import in.incognitech.noteroid.util.MenuController;
@@ -41,9 +45,32 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         List<Note> noteList = new ArrayList<Note>();
+        SQLiteDatabase db = new NoteDbHelper(this).getWritableDatabase();
+        String where = null;
+        String whereArgs[] = null;
+        String groupBy = null;
+        String having = null;
+        String order = null;
+        String[] resultColumns = {NoteDbHelper.ID_COLUMN, NoteDbHelper.PHOTO_PATH_COLUMN, NoteDbHelper.CAPTION_COLUMN};
+        Cursor cursor = db.query(NoteDbHelper.DATABASE_TABLE, resultColumns, where, whereArgs, groupBy, having, order);
+        int count = 0;
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(0);
+            String photo_path = cursor.getString(1);
+            String caption = cursor.getString(2);
+            noteList.add(count++, new Note(photo_path, caption));
+        }
 
         GridView gridView = (GridView) findViewById(R.id.gridView);
         gridView.setAdapter(new NoteAdapter(this, R.layout.note_row, noteList));
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent(getApplicationContext(), NoteActivity.class);
+                i.putExtra("note_id", position);
+                startActivity(i);
+            }
+        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -53,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
                 if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
 
 //                     Create the File where the photo should go
-                    File photoFile = null;
                     try {
                         mPhotoFile = createImageFile();
                     } catch (IOException e) {
