@@ -9,8 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
-import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 
 import in.incognitech.noteroid.R;

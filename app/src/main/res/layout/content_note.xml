@@ -32,6 +32,15 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="40dp" />
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/delete_note"
+            android:text="@string/str_delete_note"
+            android:layout_below="@+id/view_note_caption"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp" />
+
     </RelativeLayout>
 
 </ScrollView>

@@ -5,12 +5,22 @@ package in.incognitech.noteroid.model;
  */
 public class Note {
 
+    private int id;
     private String photoPath;
     private String caption;
 
-    public Note(String photoPath, String caption) {
+    public Note(int id, String photoPath, String caption) {
+        this.id = id;
         this.photoPath = photoPath;
         this.caption = caption;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getPhotoPath() {

@@ -3,8 +3,6 @@ package in.incognitech.noteroid;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -17,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ImageView;
 
 import java.io.File;
 import java.io.IOException;
@@ -58,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             int id = cursor.getInt(0);
             String photo_path = cursor.getString(1);
             String caption = cursor.getString(2);
-            noteList.add(count++, new Note(photo_path, caption));
+            noteList.add(count++, new Note(id, photo_path, caption));
         }
 
         GridView gridView = (GridView) findViewById(R.id.gridView);
