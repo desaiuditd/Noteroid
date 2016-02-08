@@ -1,6 +1,8 @@
 package in.incognitech.noteroid;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -10,12 +12,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import in.incognitech.noteroid.db.NoteDbHelper;
 import in.incognitech.noteroid.util.MenuController;
 
 public class SaveNoteActivity extends AppCompatActivity {
+
+
+    private String imagePath;
+    private String imageCaption;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +35,7 @@ public class SaveNoteActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            String imagePath = extras.getString("photoFilePath");
+            imagePath = extras.getString("photoFilePath");
             if (imagePath != null) {
                 Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
                 ImageView imageView = (ImageView) findViewById(R.id.note_photo);
@@ -43,7 +51,18 @@ public class SaveNoteActivity extends AppCompatActivity {
         btnSaveNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"Button clicked.",Toast.LENGTH_LONG).show();
+                EditText captionView = (EditText) findViewById(R.id.note_caption);
+                imageCaption = captionView.getText().toString();
+
+                SQLiteDatabase db = new NoteDbHelper(SaveNoteActivity.this).getWritableDatabase();
+                ContentValues newValues = new ContentValues();
+                newValues.put(NoteDbHelper.PHOTO_PATH_COLUMN, imagePath);
+                newValues.put(NoteDbHelper.CAPTION_COLUMN, imageCaption);
+                db.insert(NoteDbHelper.DATABASE_TABLE, null, newValues);
+
+                Toast.makeText(getApplicationContext(),"Note saved successfully!",Toast.LENGTH_LONG).show();
+                Intent i = new Intent(getApplicationContext(),MainActivity.class);
+                startActivity(i);
             }
         });
     }
