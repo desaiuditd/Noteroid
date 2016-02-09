@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import java.util.List;
 
 import in.incognitech.noteroid.R;
+import in.incognitech.noteroid.util.BitmapOptimizer;
 
 /**
  * Created by udit on 06/02/16.
@@ -57,8 +58,7 @@ public class NoteAdapter extends ArrayAdapter<Note> {
         }
 
         // Set the image
-        Bitmap bm = BitmapFactory.decodeFile(note.getPhotoPath());
-        holder.imageView.setImageBitmap(bm);
+        holder.imageView.setImageBitmap(BitmapOptimizer.decodeSampledBitmapFromFile(note.getPhotoPath(), 200, 200));
 
         return row;
     }

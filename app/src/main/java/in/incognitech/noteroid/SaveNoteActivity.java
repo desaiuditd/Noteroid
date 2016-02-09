@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import in.incognitech.noteroid.db.NoteDbHelper;
+import in.incognitech.noteroid.util.BitmapOptimizer;
 import in.incognitech.noteroid.util.MenuController;
 
 public class SaveNoteActivity extends AppCompatActivity {
@@ -37,9 +38,8 @@ public class SaveNoteActivity extends AppCompatActivity {
         if (extras != null) {
             imagePath = extras.getString("photoFilePath");
             if (imagePath != null) {
-                Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
                 ImageView imageView = (ImageView) findViewById(R.id.note_photo);
-                imageView.setImageBitmap(bitmap);
+                imageView.setImageBitmap(BitmapOptimizer.decodeSampledBitmapFromFile(imagePath, 600, 600));
             } else {
                 Toast.makeText(getApplicationContext(),"Could not save the image. Please try again.",Toast.LENGTH_LONG).show();
                 Intent i = new Intent(getApplicationContext(),MainActivity.class);

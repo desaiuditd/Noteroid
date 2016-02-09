@@ -20,6 +20,7 @@ import java.io.File;
 import in.incognitech.noteroid.db.NoteDbHelper;
 import in.incognitech.noteroid.model.Note;
 import in.incognitech.noteroid.model.NoteAdapter;
+import in.incognitech.noteroid.util.BitmapOptimizer;
 import in.incognitech.noteroid.util.MenuController;
 
 public class NoteActivity extends AppCompatActivity {
@@ -41,7 +42,7 @@ public class NoteActivity extends AppCompatActivity {
             TextView title = (TextView) findViewById(R.id.view_note_caption);
             title.setText(note.getCaption());
             ImageView imageView = (ImageView) findViewById(R.id.view_note_photo);
-            imageView.setImageBitmap(new BitmapFactory().decodeFile(note.getPhotoPath()));
+            imageView.setImageBitmap(BitmapOptimizer.decodeSampledBitmapFromFile(note.getPhotoPath(), 600, 600));
         }
 
         Button deleteNote = (Button) findViewById(R.id.delete_note);
